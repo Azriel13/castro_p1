@@ -12,14 +12,13 @@ public class EmployeeDaoPostgresImpl implements EmployeeDao{
 
         try {
             Connection conn = ConnectionsUtil.createConnection();
-            String sql = "insert into employee values (?,?,?,?,?)";
+            String sql = "insert into employee values (?,?,?,?)";
             assert conn != null;
             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ps.setString(1, employee.getEusername() );
-            ps.setString(2, employee.getEname());
-            ps.setString(3, employee.getEpassword());
-            ps.setInt(4, employee.getEid());
-            ps.setInt(5, employee.getAdminkey());
+            ps.setString(1, employee.getEUsername());
+            ps.setString(2, employee.getEName());
+            ps.setString(3, employee.getEAddress());
+            ps.setInt(4, employee.getEID());
 
             ps.execute();
 
@@ -43,11 +42,10 @@ public class EmployeeDaoPostgresImpl implements EmployeeDao{
 
             rs.next();
             Employee employee = new Employee();
-            employee.setEusername(rs.getString("eusername"));
-            employee.setEname(rs.getString("ename"));
-            employee.setEpassword(rs.getString("epassword"));
-            employee.setEid(rs.getInt("eid"));
-            employee.setAdminkey(rs.getInt("adminkey"));
+            employee.setEUsername("eusername");
+            employee.setEName(rs.getString("ename"));
+            employee.setEAddress(rs.getString("eaddress"));
+            employee.setEID(rs.getInt("eid"));
             return employee;
 
         } catch (SQLException e) {
@@ -58,53 +56,17 @@ public class EmployeeDaoPostgresImpl implements EmployeeDao{
     }
 
     @Override
-    public Employee updateEmployeePassword(Employee employee) {
+    public Employee updateEmployeeInformation(Employee employee) {
 
         try {
             Connection conn = ConnectionsUtil.createConnection();
-            String sql = "update employee set password = ? where ueid = ?";
+            String sql = "update employee set eusername =?, ename = ?,eaddress =? where ueid = ?";
             assert conn != null;
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, employee.getEpassword());
-            ps.setInt(2, employee.getEid());
-            ps.executeUpdate();
-            return  employee;
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return  null;
-        }
-    }
-
-    @Override
-    public Employee updateEmployeeEname(Employee employee) {
-
-        try {
-            Connection conn = ConnectionsUtil.createConnection();
-            String sql = "update employee set ename = ? where ueid = ?";
-            assert conn != null;
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, employee.getEname());
-            ps.setInt(2, employee.getEid());
-            ps.executeUpdate();
-            return  employee;
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return  null;
-        }
-    }
-
-    @Override
-    public Employee updateEmployeeEusername(Employee employee) {
-
-        try {
-            Connection conn = ConnectionsUtil.createConnection();
-            String sql = "update employee set eusername = ? where ueid = ?";
-            assert conn != null;
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, employee.getEusername());
-            ps.setInt(2, employee.getEid());
+            ps.setString(1,employee.getEUsername());
+            ps.setString(2, employee.getEName());
+            ps.setString(3, employee.getEAddress());
+            ps.setInt(4, employee.getEID());
             ps.executeUpdate();
             return  employee;
 

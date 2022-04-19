@@ -4,11 +4,9 @@ import lombok.Data;
 
 @Data
 public class Employee {
-
-    private String eusername;
-    private String ename;
-    private String epassword;
-    private int eid;
-    private int adminkey;
+    private String eUsername;
+    private String eName;
+    private String eAddress;
+    private int eID;
 
 }

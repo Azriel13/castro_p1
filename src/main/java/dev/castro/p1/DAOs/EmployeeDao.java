@@ -8,11 +8,7 @@ public interface EmployeeDao {
 
     Employee getEmployeeAccountByEid(int eid);
 
-    Employee updateEmployeePassword(Employee employee);
-
-    Employee updateEmployeeEname(Employee employee);
-
-    Employee updateEmployeeEusername(Employee employee);
+    Employee updateEmployeeInformation(Employee employee);
 
     boolean deleteEmployeeByEid(int eid);
 
