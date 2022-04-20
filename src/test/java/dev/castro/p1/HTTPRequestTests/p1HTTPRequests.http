@@ -1,11 +1,34 @@
-POST http://localhost:4500/employee
+POST http://localhost:5000/employee
 
 {"eName":"Michael Castro","eID": 12}
 ###
 
+POST http://localhost:5000/employee
 
-GET http://localhost:4500/employee/13
+{"eName":"Meghan Castro","eID": 13}
+###
+
+POST http://localhost:5000/employee
+
+{"eName":"Michelle Castro","eID": 12}
+###
+
+GET http://localhost:5000/employee
 
 ###
 
+GET http://localhost:5000/employee/12
 
+###
+
+GET http://localhost:5000/employee/15
+
+###
+
+DELETE http://localhost:5000/employee/12
+
+###
+
+PUT http://localhost:5000/employee/12
+
+{"eName":"Michelle Castro"}

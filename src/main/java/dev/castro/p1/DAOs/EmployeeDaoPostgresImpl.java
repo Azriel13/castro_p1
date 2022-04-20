@@ -1,7 +1,9 @@
 package dev.castro.p1.DAOs;
 
 import dev.castro.p1.Entities.Employee;
+import dev.castro.p1.Exceptions.ResourceNotFound;
 import dev.castro.p1.Utilities.ConnectionsUtil;
+import org.postgresql.util.PSQLException;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -19,11 +21,10 @@ public class EmployeeDaoPostgresImpl implements EmployeeDao{
             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, employee.getEName());
             ps.setInt(2, employee.getEID());
-
             ps.execute();
-
             return employee;
         }  catch (SQLException e) {
+            System.out.println("Duplicate EID.");
             e.printStackTrace();
             return null;
         }
@@ -31,25 +32,27 @@ public class EmployeeDaoPostgresImpl implements EmployeeDao{
 
     @Override
     public Employee getEmployeeAccountByEid(int eid) {
-
-        try {
-            Connection conn = ConnectionsUtil.createConnection();
-            String sql = "select * from employee where eid = ?";
+        try{
+        Connection conn = ConnectionsUtil.createConnection();
+        String sql = "select * from employee where eid = ?";
             assert conn != null;
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1, eid);
-            ResultSet rs = ps.executeQuery();
+        ps.setInt(1,eid);
 
-            rs.next();
-            Employee employee = new Employee();
-            employee.setEName(rs.getString("ename"));
-            employee.setEID(rs.getInt("eid"));
-            return employee;
+        ResultSet rs = ps.executeQuery();
+        if(rs.next()){
+        Employee employee = new Employee();
+        employee.setEID(rs.getInt("eid"));
+        employee.setEName(rs.getString("ename"));
+        return employee;
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
+    }else{
+                throw new ResourceNotFound(eid);
+            }
+        }catch(SQLException e) {
+        e.printStackTrace();
+        return null;
+    }
 
     }
 
@@ -58,7 +61,7 @@ public class EmployeeDaoPostgresImpl implements EmployeeDao{
 
         try {
             Connection conn = ConnectionsUtil.createConnection();
-            String sql = "update employee set ename = ? where ueid = ?";
+            String sql = "update employee set ename = ? where eid = ?";
             assert conn != null;
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, employee.getEName());
@@ -67,6 +70,7 @@ public class EmployeeDaoPostgresImpl implements EmployeeDao{
             return  employee;
 
         } catch (SQLException e) {
+            System.out.println("EID not valid.");
             e.printStackTrace();
             return  null;
         }
@@ -84,6 +88,7 @@ public class EmployeeDaoPostgresImpl implements EmployeeDao{
             ps.execute();
             return  true;
         } catch (SQLException e) {
+            System.out.println("EID not valid.");
             e.printStackTrace();
             return false;
         }

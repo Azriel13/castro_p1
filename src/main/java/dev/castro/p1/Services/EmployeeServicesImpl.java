@@ -4,6 +4,7 @@ import dev.castro.p1.DAOs.EmployeeDao;
 import dev.castro.p1.DAOs.EmployeeDaoPostgresImpl;
 import dev.castro.p1.Entities.Employee;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class EmployeeServicesImpl implements EmployeeServices{
@@ -33,12 +34,23 @@ public class EmployeeServicesImpl implements EmployeeServices{
 
     @Override
     public List<Employee> getAllEmployee() {
-        return this.getAllEmployee();
+        return this.employeeDao.getAllEmployee();
     }
 
     @Override
     public Employee getEmployeeByEid(int eid) {
 
+        List<Employee> allemployees = this.employeeDao.getAllEmployee();
+
+        List<Employee> filteredBooks = new ArrayList();
+
+        for(int i =0; i< allemployees.size(); i++){
+            if(allemployees.get(i).getEID() == eid){
+                filteredBooks.add(allemployees.get(i));
+            }
+        }
+
         return this.employeeDao.getEmployeeAccountByEid(eid);
     }
-}
+
+    }
