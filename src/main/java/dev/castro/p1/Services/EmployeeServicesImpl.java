@@ -4,6 +4,8 @@ import dev.castro.p1.DAOs.EmployeeDao;
 import dev.castro.p1.DAOs.EmployeeDaoPostgresImpl;
 import dev.castro.p1.Entities.Employee;
 
+import java.util.List;
+
 public class EmployeeServicesImpl implements EmployeeServices{
 
     private EmployeeDao employeeDao;
@@ -19,7 +21,7 @@ public class EmployeeServicesImpl implements EmployeeServices{
     }
 
     @Override
-    public Employee uppdateEmployeeInformation(Employee employee) {
+    public Employee updateEmployeeInformation(Employee employee) {
         return this.employeeDao.updateEmployeeInformation(employee);
     }
 
@@ -27,6 +29,11 @@ public class EmployeeServicesImpl implements EmployeeServices{
     public boolean deleteEmployeeByEid(int eid) {
 
         return this.employeeDao.deleteEmployeeByEid(eid);
+    }
+
+    @Override
+    public List<Employee> getAllEmployee() {
+        return this.getAllEmployee();
     }
 
     @Override
