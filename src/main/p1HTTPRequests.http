@@ -1,3 +1,0 @@
-POST http://localhost:4500/employee
-
-{"eUsername": "mcastro562", "eName":"Michael Castro", "eAddress":"123 W Main", "eID": 12}

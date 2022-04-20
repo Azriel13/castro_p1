@@ -9,25 +9,29 @@ public class EmployeeServicesImpl implements EmployeeServices{
     private EmployeeDao employeeDao;
 
     public EmployeeServicesImpl (EmployeeDaoPostgresImpl employeeDao){
+
         this.employeeDao = employeeDao;
     }
     @Override
     public Employee createEmployee(Employee employee) {
-        return null;
+
+        return this.employeeDao.createEmployeeAccount(employee);
     }
 
     @Override
     public Employee uppdateEmployeeInformation(Employee employee) {
-        return null;
+        return this.employeeDao.updateEmployeeInformation(employee);
     }
 
     @Override
-    public Employee deleteEmployeeByEid(int eid) {
-        return null;
+    public boolean deleteEmployeeByEid(int eid) {
+
+        return this.employeeDao.deleteEmployeeByEid(eid);
     }
 
     @Override
     public Employee getEmployeeByEid(int eid) {
-        return null;
+
+        return this.employeeDao.getEmployeeAccountByEid(eid);
     }
 }

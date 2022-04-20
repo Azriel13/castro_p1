@@ -2,6 +2,7 @@ package dev.castro.p1.App;
 import com.google.gson.Gson;
 import dev.castro.p1.DAOs.EmployeeDaoPostgresImpl;
 import dev.castro.p1.Entities.Employee;
+import dev.castro.p1.Exceptions.ResourceNotFound;
 import dev.castro.p1.Services.EmployeeServices;
 import dev.castro.p1.Services.EmployeeServicesImpl;
 import io.javalin.Javalin;
@@ -28,8 +29,20 @@ public class ExpenseWebApp {
             String eJson = gson.toJson(employee);
             context.result(eJson);
         });
+        app.get("/employee/{eid}", context -> {
+
+            int eid = Integer.parseInt(context.pathParam("eid"));
+
+            try {
+                String employeeJSON =  gson.toJson(employeeServices.getEmployeeByEid(eid));
+                context.result(employeeJSON);
+            }catch (ResourceNotFound e){
+                context.status(404);
+                context.result("Employee with EID:"+eid+" not found.");
+            }
 
 
+        });
 
         app.start(4500);
     }

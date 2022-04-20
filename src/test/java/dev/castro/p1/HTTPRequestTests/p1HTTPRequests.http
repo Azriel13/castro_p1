@@ -1,0 +1,11 @@
+POST http://localhost:4500/employee
+
+{"eName":"Michael Castro","eID": 12}
+###
+
+
+GET http://localhost:4500/employee/13
+
+###
+
+

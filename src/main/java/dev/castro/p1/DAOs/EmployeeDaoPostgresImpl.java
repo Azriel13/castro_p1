@@ -4,6 +4,8 @@ import dev.castro.p1.Entities.Employee;
 import dev.castro.p1.Utilities.ConnectionsUtil;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EmployeeDaoPostgresImpl implements EmployeeDao{
 
@@ -12,13 +14,11 @@ public class EmployeeDaoPostgresImpl implements EmployeeDao{
 
         try {
             Connection conn = ConnectionsUtil.createConnection();
-            String sql = "insert into employee values (?,?,?,?)";
+            String sql = "insert into employee values (?,?)";
             assert conn != null;
             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ps.setString(1, employee.getEUsername());
-            ps.setString(2, employee.getEName());
-            ps.setString(3, employee.getEAddress());
-            ps.setInt(4, employee.getEID());
+            ps.setString(1, employee.getEName());
+            ps.setInt(2, employee.getEID());
 
             ps.execute();
 
@@ -34,7 +34,7 @@ public class EmployeeDaoPostgresImpl implements EmployeeDao{
 
         try {
             Connection conn = ConnectionsUtil.createConnection();
-            String sql = "select * from emplyee where eid = ?";
+            String sql = "select * from employee where eid = ?";
             assert conn != null;
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, eid);
@@ -42,9 +42,7 @@ public class EmployeeDaoPostgresImpl implements EmployeeDao{
 
             rs.next();
             Employee employee = new Employee();
-            employee.setEUsername("eusername");
             employee.setEName(rs.getString("ename"));
-            employee.setEAddress(rs.getString("eaddress"));
             employee.setEID(rs.getInt("eid"));
             return employee;
 
@@ -60,13 +58,11 @@ public class EmployeeDaoPostgresImpl implements EmployeeDao{
 
         try {
             Connection conn = ConnectionsUtil.createConnection();
-            String sql = "update employee set eusername =?, ename = ?,eaddress =? where ueid = ?";
+            String sql = "update employee set ename = ? where ueid = ?";
             assert conn != null;
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1,employee.getEUsername());
-            ps.setString(2, employee.getEName());
-            ps.setString(3, employee.getEAddress());
-            ps.setInt(4, employee.getEID());
+            ps.setString(1, employee.getEName());
+            ps.setInt(2, employee.getEID());
             ps.executeUpdate();
             return  employee;
 
@@ -92,5 +88,29 @@ public class EmployeeDaoPostgresImpl implements EmployeeDao{
             return false;
         }
     }
+
+    public List<Employee> getAllEmployee() {
+        try {
+            Connection conn = ConnectionsUtil.createConnection();
+            String sql = "select * from employee";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
+            List<Employee> employees = new ArrayList();
+            while (rs.next()){
+                Employee employee = new Employee();
+                employee.setEName(rs.getString("ename"));
+                employee.setEID(rs.getInt("eid"));
+                employees.add(employee);
+            }
+
+            return employees;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 
 }

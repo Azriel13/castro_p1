@@ -8,7 +8,7 @@ public interface EmployeeServices {
 
     Employee uppdateEmployeeInformation (Employee employee);
 
-    Employee deleteEmployeeByEid ( int eid);
+    boolean deleteEmployeeByEid (int eid);
 
     Employee getEmployeeByEid (int eid);
 
