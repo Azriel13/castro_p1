@@ -1,6 +1,5 @@
 package dev.castro.p1.DAOs;
 
-import dev.castro.p1.Entities.Employee;
 import dev.castro.p1.Entities.Expense;
 import dev.castro.p1.Exceptions.ResourceNotFound;
 import dev.castro.p1.Utilities.ConnectionsUtil;
@@ -63,6 +62,7 @@ public class ExpenseDaoPostgresImpl implements ExpenseDao {
         try {
             Connection conn = ConnectionsUtil.createConnection();
             String sql = "select * from expense";
+            assert conn != null;
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
 
@@ -85,7 +85,7 @@ public class ExpenseDaoPostgresImpl implements ExpenseDao {
     }
 
     @Override
-    public Expense updateExpenseStatus(Expense expense) {
+    final public Expense updateExpenseStatus(Expense expense) {
         try {
             Connection conn = ConnectionsUtil.createConnection();
             String sql = "update expense set approval = ? where expid = ?";
