@@ -89,7 +89,7 @@
                         <configuration>
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>dev.castro.p1</mainClass>
+                                    <mainClass>dev.castro.App.ExpenseWebApp</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>
