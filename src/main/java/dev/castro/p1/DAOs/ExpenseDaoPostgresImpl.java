@@ -2,11 +2,16 @@ package dev.castro.p1.DAOs;
 
 import dev.castro.p1.Entities.Expense;
 import dev.castro.p1.Exceptions.ResourceNotFound;
+import dev.castro.p1.Exceptions.ResourceNotFound2;
 import dev.castro.p1.Utilities.ConnectionsUtil;
+import jdk.nashorn.internal.ir.annotations.Immutable;
+import sun.security.ec.point.ProjectivePoint;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import static dev.castro.p1.Enum.Status.Pending;
 
 public class ExpenseDaoPostgresImpl implements ExpenseDao {
 
@@ -15,16 +20,16 @@ public class ExpenseDaoPostgresImpl implements ExpenseDao {
     public Expense createExpense(Expense expense) {
         try {
             Connection conn = ConnectionsUtil.createConnection();
-            String sql = "insert into expense values (?,?,?)";
+            String sql = "insert into expense values (?,?,?,?)";
             assert conn != null;
             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, expense.getEid());
             ps.setInt(2, expense.getExpid());
             ps.setDouble(3, expense.getExpammount());
+            ps.setString(4, expense.getApproval());
             ps.execute();
             return expense;
         }  catch (SQLException e) {
-            System.out.println("Duplicate Expense.");
             e.printStackTrace();
             return null;
         }
@@ -45,7 +50,7 @@ public class ExpenseDaoPostgresImpl implements ExpenseDao {
                 expense.setEid(rs.getInt("eid"));
                 expense.setExpid(rs.getInt("expid"));
                 expense.setExpammount(rs.getDouble("expammount"));
-                expense.setApproval((rs.getString("ammount")));
+                expense.setApproval(rs.getString("approval"));
                 return expense;
 
             }else{
@@ -85,7 +90,7 @@ public class ExpenseDaoPostgresImpl implements ExpenseDao {
     }
 
     @Override
-    final public Expense updateExpenseStatus(Expense expense) {
+    public Expense updateExpenseStatus(Expense expense) {
         try {
             Connection conn = ConnectionsUtil.createConnection();
             String sql = "update expense set approval = ? where expid = ?";

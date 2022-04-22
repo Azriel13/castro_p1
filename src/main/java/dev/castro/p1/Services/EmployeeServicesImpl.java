@@ -38,19 +38,19 @@ public class EmployeeServicesImpl implements EmployeeServices{
     }
 
     @Override
-    public Employee getEmployeeByEid(int eid) {
+    public List<Employee> getEmployeeByEid(int eid) {
 
         List<Employee> allemployees = this.employeeDao.getAllEmployee();
 
-        List<Employee> filteredBooks = new ArrayList();
+        List<Employee> filteredEmployee = new ArrayList();
 
         for(int i =0; i< allemployees.size(); i++){
             if(allemployees.get(i).getEID() == eid){
-                filteredBooks.add(allemployees.get(i));
+                filteredEmployee.add(allemployees.get(i));
             }
         }
 
-        return this.employeeDao.getEmployeeAccountByEid(eid);
+        return filteredEmployee;
     }
 
     }

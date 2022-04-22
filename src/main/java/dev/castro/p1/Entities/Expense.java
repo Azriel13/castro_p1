@@ -3,7 +3,7 @@ package dev.castro.p1.Entities;
 import lombok.Data;
 
 @Data
-public class Expense {
+final public class Expense {
     public Expense() {
     }
 

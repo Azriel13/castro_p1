@@ -17,7 +17,7 @@ public class EmployeeDaoTests {
     @Test
     @Order(1)
     void createEmployeeAccountTest(){
-        Employee azr = new Employee("Michael Castro",12);
+        Employee azr = new Employee("Michael Castro",13);
         Employee employee = employeeDao.createEmployeeAccount(azr);
         EmployeeDaoTests.testemployee = employee;
         Assertions.assertNotEquals(null, employee.getEName());
@@ -46,19 +46,18 @@ public class EmployeeDaoTests {
         boolean result = employeeDao.deleteEmployeeByEid(testemployee.getEID());
         Assertions.assertTrue(result);
     }
-    @Disabled
     @Test
     @Order(5)
     void getAllEmployee(){
-        Employee a = new Employee("Michael", 12);
         Employee b = new Employee("Michelle", 8);
         Employee c = new Employee("Misty", 14);
-        employeeDao.createEmployeeAccount(a);
         employeeDao.createEmployeeAccount(b);
         employeeDao.createEmployeeAccount(c);
         List<Employee> employees = employeeDao.getAllEmployee();
         int totalEmployees = employees.size();
-        Assertions.assertTrue(totalEmployees >= 3);
+        Assertions.assertTrue(totalEmployees >= 2);
+        employeeDao.deleteEmployeeByEid(b.getEID());
+        employeeDao.deleteEmployeeByEid(c.getEID());
     }
 
     @Test

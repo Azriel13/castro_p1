@@ -81,7 +81,7 @@ public class EmployeeDaoPostgresImpl implements EmployeeDao{
 
         try {
             Connection conn = ConnectionsUtil.createConnection();
-            String sql = "delete from employee where eid= ?";
+            String sql = "delete from employee  where eid= ?";
             assert conn != null;
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, eid);
