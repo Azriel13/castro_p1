@@ -13,6 +13,7 @@ import dev.castro.p1.Services.ExpenseServicesImpl;
 import io.javalin.Javalin;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class ExpenseWebApp {
 
@@ -127,17 +128,41 @@ public class ExpenseWebApp {
         app.put("/employee/{eid}/expense/{expid}", context -> {
             int eid = Integer.parseInt(context.pathParam("eid"));
             int expid = Integer.parseInt(context.pathParam("expid"));
+
             try {
                 String body = context.body();
                 Expense expense = gson.fromJson(body, Expense.class);
                 expense.setExpid(expid);
                 expenseServices.updateExpenseStatus(expense);
-                context.result("Status changed.");
+                context.result("Expense changed.");
             }catch (ResourceNotFound e) {
                 context.status(404);
                 context.result("Employee with EID: " + eid + " not found, or expense with ExpID: "+expid+" not found.");
             }
         });
+
+        app.patch("/employee/{eid}/expense/{expid}/{approval}",context -> {
+            int eid = Integer.parseInt(context.pathParam("eid"));
+            int expid = Integer.parseInt(context.pathParam("expid"));
+            String approval = context.pathParam("approval");
+            String body = context.body();
+            Expense expense = gson.fromJson(body, Expense.class);
+            expense.setApproval(approval);
+            try{
+            if(expense.getApproval() == "Pending"){
+                expenseServices.updateExpenseStatus(expense);
+                context.result("Status has been changed");
+                context.status(200);
+            }else{
+                System.out.println("Expense can no longer be changed.");
+            }
+            }catch (ResourceNotFound e) {
+                context.status(404);
+                context.result("Employee with EID: " + eid + " not found, or expense with ExpID: "+expid+" not found.");
+            }
+
+        });
+
 
         app.delete("/employee/{eid}/expense/{expid}",context -> {
             int eid = Integer.parseInt(context.pathParam("eid"));

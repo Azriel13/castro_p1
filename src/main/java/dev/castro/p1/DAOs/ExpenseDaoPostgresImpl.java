@@ -11,8 +11,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static dev.castro.p1.Enum.Status.Pending;
-
 public class ExpenseDaoPostgresImpl implements ExpenseDao {
 
 

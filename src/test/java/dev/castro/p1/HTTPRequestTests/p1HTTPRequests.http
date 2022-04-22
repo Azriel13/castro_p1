@@ -69,20 +69,26 @@ GET http://localhost:5000/employee/12/expense?approval=Pending
 
 ###
 
-DELETE http://localhost:5000/employee/12/expense/3
-
-###
-
-DELETE http://localhost:5000/employee/12/expense/2
-
-###
-
 PUT http://localhost:5000/employee/12/expense/2
+
+{"approval":"Pending"}
+
+###
+
+PATCH http://localhost:5000/employee/12/expense/1/Pending
 
 {"approval":"Denied"}
 
 ###
 
-PUT http://localhost:5000/employee/12/expense/2
+PATCH http://localhost:5000/employee/12/expense/1/Denied
 
-{"approval":"Pending"}
+{"approval":"Approved"}
+
+###
+
+DELETE http://localhost:5000/employee/12/expense/3
+
+###
+
+DELETE http://localhost:5000/employee/12/expense/1
