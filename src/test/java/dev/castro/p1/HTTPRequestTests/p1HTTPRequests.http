@@ -37,19 +37,19 @@ PUT http://localhost:5000/employee/12
 
 POST http://localhost:5000/employee/12/expense
 
-{"expid":1,"expammount":1250.50, "approval":"Pending"}
+{"expid":1,"expammount":1250.50}
 
 ###
 
 POST http://localhost:5000/employee/12/expense
 
-{"expid":2,"expammount":12.00, "approval":"Pending"}
+{"expid":2,"expammount":12.00}
 
 ###
 
 POST http://localhost:5000/employee/12/expense
 
-{"expid":3,"expammount":120.00, "approval":"Approved"}
+{"expid":3,"expammount":120.00}
 
 ###
 
@@ -65,13 +65,13 @@ GET  http://localhost:5000/employee/12/expense/5
 
 ###
 
-GET http://localhost:5000/employee/12/expense?approval=Pending
+GET http://localhost:5000/employee/12/expense?status=Pending
 
 ###
 
-PUT http://localhost:5000/employee/12/expense/2
+PUT http://localhost:5000/employee/12/expense/2/Pending
 
-{"approval":"Pending"}
+{"approval":"Approved"}
 
 ###
 

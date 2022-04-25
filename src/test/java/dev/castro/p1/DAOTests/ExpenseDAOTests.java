@@ -3,6 +3,7 @@ package dev.castro.p1.DAOTests;
 import dev.castro.p1.DAOs.ExpenseDao;
 import dev.castro.p1.DAOs.ExpenseDaoPostgresImpl;
 import dev.castro.p1.Entities.Expense;
+import dev.castro.p1.Enums.Status;
 import org.junit.jupiter.api.*;
 
 import java.util.List;
@@ -18,10 +19,10 @@ public class ExpenseDAOTests {
     @Test
     @Order(1)
     void createExpenseTest() {
-        Expense azr = new Expense(12, 121, 1200.00, "Pending");
+        Expense azr = new Expense(12, 121, 1200.00, Status.valueOf("Pending"));
         Expense expense = expenseDao.createExpense(azr);
         ExpenseDAOTests.testexpense = expense;
-        Assertions.assertEquals("Pending", expense.getApproval());
+        Assertions.assertEquals(Status.valueOf("Pending"), expense.getApproval());
     }
 
     @Test
@@ -35,10 +36,10 @@ public class ExpenseDAOTests {
     @Test
     @Order(3)
     void updateExpenseStatustest() {
-        ExpenseDAOTests.testexpense.setApproval("Denied");
+        ExpenseDAOTests.testexpense.setApproval(Status.valueOf("Denied"));
         expenseDao.updateExpenseStatus(testexpense);
         Expense retrivedExpense = expenseDao.getExpenseByExpId(testexpense.getExpid());
-        Assertions.assertEquals("Denied", retrivedExpense.getApproval());
+        Assertions.assertEquals(Status.valueOf("Denied"), retrivedExpense.getApproval());
     }
 
     @Test
@@ -52,8 +53,8 @@ public class ExpenseDAOTests {
     @Test
     @Order(5)
     void getAllExpense() {
-        Expense b = new Expense(12, 131, 140, "Pending");
-        Expense c = new Expense(12, 141, 256.99, "Pending");
+        Expense b = new Expense(12, 131, 140, Status.valueOf("Pending"));
+        Expense c = new Expense(12, 141, 256.99, Status.valueOf("Pending"));
         expenseDao.createExpense(b);
         expenseDao.createExpense(c);
         List<Expense> expenses = expenseDao.getAllExpense();

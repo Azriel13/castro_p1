@@ -1,5 +1,6 @@
 package dev.castro.p1.Entities;
 
+import dev.castro.p1.Enums.Status;
 import lombok.Data;
 
 @Data
@@ -10,9 +11,9 @@ import lombok.Data;
     private int eid;
     private int expid;
     private double expammount;
-    private String approval;
+    private Status approval;
 
-    public Expense(int eid, int expid, double expammount, String approval) {
+    public Expense(int eid, int expid, double expammount, Status approval) {
         this.eid = eid;
         this.expid = expid;
         this.expammount = expammount;

@@ -31,9 +31,9 @@ public class ExpenseServicesImpl implements ExpenseServices{
 
         List<Expense> filteredExpense = new ArrayList();
 
-        for(int i =0; i< allexpense.size(); i++){
-            if(allexpense.get(i).getExpid() == expid){
-                filteredExpense.add(allexpense.get(i));
+        for (Expense expense : allexpense) {
+            if (expense.getExpid() == expid) {
+                filteredExpense.add(expense);
             }
         }
 
@@ -46,9 +46,9 @@ public class ExpenseServicesImpl implements ExpenseServices{
 
         List<Expense> filteredExpense = new ArrayList();
 
-        for (int i = 0; i < allexpense.size(); i++) {
-            if (allexpense.get(i).getExpid() == eid) {
-                filteredExpense.add(allexpense.get(i));
+        for (Expense expense : allexpense) {
+            if (expense.getExpid() == eid) {
+                filteredExpense.add(expense);
             }
         }
         return filteredExpense;
@@ -60,9 +60,9 @@ public class ExpenseServicesImpl implements ExpenseServices{
 
         List<Expense> filteredExpense = new ArrayList();
 
-        for(int i =0; i< allexpense.size(); i++){
-            if(allexpense.get(i).getApproval() == approval){
-                filteredExpense.add(allexpense.get(i));
+        for (Expense expense : allexpense) {
+            if (Objects.equals(expense.getApproval(), approval)) {
+                filteredExpense.add(expense);
             }
         }
 
@@ -71,8 +71,6 @@ public class ExpenseServicesImpl implements ExpenseServices{
 
     @Override
     public boolean deleteExpenseByExpID(int expid) {
-        Expense expense = this.expenseDao.getExpenseByExpId(expid);
-
             return this.expenseDao.deleteExpenseByExpId(expid);
     }
 

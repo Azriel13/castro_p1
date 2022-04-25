@@ -4,14 +4,14 @@ import dev.castro.p1.DAOs.EmployeeDaoPostgresImpl;
 import dev.castro.p1.DAOs.ExpenseDaoPostgresImpl;
 import dev.castro.p1.Entities.Employee;
 import dev.castro.p1.Entities.Expense;
+import dev.castro.p1.Enums.Status;
 import dev.castro.p1.Exceptions.ResourceNotFound;
-import dev.castro.p1.Exceptions.ResourceNotFound2;
 import dev.castro.p1.Services.EmployeeServices;
 import dev.castro.p1.Services.EmployeeServicesImpl;
 import dev.castro.p1.Services.ExpenseServices;
 import dev.castro.p1.Services.ExpenseServicesImpl;
 import io.javalin.Javalin;
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Objects;
 
@@ -21,8 +21,6 @@ public class ExpenseWebApp {
     public static EmployeeServices employeeServices = new EmployeeServicesImpl(new EmployeeDaoPostgresImpl());
     public static ExpenseServices expenseServices = new ExpenseServicesImpl(new ExpenseDaoPostgresImpl());
 
-
-    Javalin app = Javalin.create();
 
     public static void main(String[] args) {
         Javalin app = Javalin.create();
@@ -120,7 +118,7 @@ public class ExpenseWebApp {
                 try{
                     String expenseJSON = gson.toJson(expenseServices.getExpenseByApproval(approval));
                     context.result(expenseJSON);
-                }catch (ResourceNotFound2 e){
+                }catch (ResourceNotFound e){
                     context.result("Employee with EID:" +eid+" not found, or Expenses with Approval:"+approval+" were not found");
                 }
             });
@@ -147,9 +145,9 @@ public class ExpenseWebApp {
             String approval = context.pathParam("approval");
             String body = context.body();
             Expense expense = gson.fromJson(body, Expense.class);
-            expense.setApproval(approval);
+            expense.setApproval(Status.valueOf(approval));
             try{
-            if(expense.getApproval() == "Pending"){
+            if(Objects.equals(expense.getApproval(), "Pending")){
                 expenseServices.updateExpenseStatus(expense);
                 context.result("Status has been changed");
                 context.status(200);

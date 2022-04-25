@@ -1,11 +1,9 @@
 package dev.castro.p1.DAOs;
 
 import dev.castro.p1.Entities.Expense;
+import dev.castro.p1.Enums.Status;
 import dev.castro.p1.Exceptions.ResourceNotFound;
-import dev.castro.p1.Exceptions.ResourceNotFound2;
 import dev.castro.p1.Utilities.ConnectionsUtil;
-import jdk.nashorn.internal.ir.annotations.Immutable;
-import sun.security.ec.point.ProjectivePoint;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -24,7 +22,7 @@ public class ExpenseDaoPostgresImpl implements ExpenseDao {
             ps.setInt(1, expense.getEid());
             ps.setInt(2, expense.getExpid());
             ps.setDouble(3, expense.getExpammount());
-            ps.setString(4, expense.getApproval());
+            ps.setObject(4, expense.getApproval(), Types.OTHER);
             ps.execute();
             return expense;
         }  catch (SQLException e) {
@@ -48,7 +46,6 @@ public class ExpenseDaoPostgresImpl implements ExpenseDao {
                 expense.setEid(rs.getInt("eid"));
                 expense.setExpid(rs.getInt("expid"));
                 expense.setExpammount(rs.getDouble("expammount"));
-                expense.setApproval(rs.getString("approval"));
                 return expense;
 
             }else{
@@ -75,7 +72,6 @@ public class ExpenseDaoPostgresImpl implements ExpenseDao {
                 expense.setEid(rs.getInt("eid"));
                 expense.setExpid(rs.getInt("expid"));
                 expense.setExpammount(rs.getDouble("expammount"));
-                expense.setApproval(rs.getString("approval"));
                 expenses.add(expense);
             }
 
@@ -94,7 +90,7 @@ public class ExpenseDaoPostgresImpl implements ExpenseDao {
             String sql = "update expense set approval = ? where expid = ?";
             assert conn != null;
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, expense.getApproval());
+            ps.setObject(1,expense.getApproval(), Types.OTHER);
             ps.setInt(2, expense.getExpid());
             ps.executeUpdate();
             return  expense;
