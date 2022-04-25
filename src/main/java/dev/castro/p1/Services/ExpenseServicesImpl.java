@@ -2,6 +2,7 @@ package dev.castro.p1.Services;
 
 import dev.castro.p1.DAOs.ExpenseDao;
 import dev.castro.p1.Entities.Expense;
+import dev.castro.p1.Enums.Status;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,32 +42,18 @@ public class ExpenseServicesImpl implements ExpenseServices{
     }
 
     @Override
-    public List<Expense> getExpenseByEID(int eid) {
+    public Expense getExpenseByApproval(Status approval) {
         List<Expense> allexpense = this.expenseDao.getAllExpense();
 
         List<Expense> filteredExpense = new ArrayList();
 
         for (Expense expense : allexpense) {
-            if (expense.getExpid() == eid) {
-                filteredExpense.add(expense);
-            }
-        }
-        return filteredExpense;
-    }
-
-    @Override
-    public List<Expense> getExpenseByApproval(String approval) {
-        List<Expense> allexpense = this.expenseDao.getAllExpense();
-
-        List<Expense> filteredExpense = new ArrayList();
-
-        for (Expense expense : allexpense) {
-            if (Objects.equals(expense.getApproval(), approval)) {
+            if (expense.getApproval() == approval) {
                 filteredExpense.add(expense);
             }
         }
 
-        return filteredExpense;
+        return this.expenseDao.getExpenseByApproval(approval);
     }
 
     @Override

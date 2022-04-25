@@ -14,6 +14,6 @@ public interface EmployeeServices {
 
     List<Employee> getAllEmployee();
 
-    List<Employee> getEmployeeByEid (int eid);
+    Employee getEmployeeByEid (int eid);
 
 }

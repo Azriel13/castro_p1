@@ -3,8 +3,10 @@ package dev.castro.p1.Entities;
 import dev.castro.p1.Enums.Status;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
-    public class Expense {
+    public class Expense{
     public Expense() {
     }
 

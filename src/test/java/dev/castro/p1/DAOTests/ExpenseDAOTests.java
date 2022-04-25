@@ -19,10 +19,10 @@ public class ExpenseDAOTests {
     @Test
     @Order(1)
     void createExpenseTest() {
-        Expense azr = new Expense(12, 121, 1200.00, Status.valueOf("Pending"));
+        Expense azr = new Expense(12, 121, 1200.00,Status.Pending);
         Expense expense = expenseDao.createExpense(azr);
         ExpenseDAOTests.testexpense = expense;
-        Assertions.assertEquals(Status.valueOf("Pending"), expense.getApproval());
+        Assertions.assertEquals(Status.Pending, expense.getApproval());
     }
 
     @Test
@@ -35,15 +35,23 @@ public class ExpenseDAOTests {
 
     @Test
     @Order(3)
-    void updateExpenseStatustest() {
-        ExpenseDAOTests.testexpense.setApproval(Status.valueOf("Denied"));
-        expenseDao.updateExpenseStatus(testexpense);
-        Expense retrivedExpense = expenseDao.getExpenseByExpId(testexpense.getExpid());
-        Assertions.assertEquals(Status.valueOf("Denied"), retrivedExpense.getApproval());
+    void getExpenseByApproval(){
+        Expense retrievedExpense = expenseDao.getExpenseByApproval(testexpense.getApproval());
+        System.out.println(retrievedExpense);
+        Assertions.assertEquals(Status.Pending, testexpense.getApproval());
+
     }
 
     @Test
     @Order(4)
+    void updateExpenseStatustest() {
+        ExpenseDAOTests.testexpense.setApproval(Status.Denied);
+        expenseDao.updateExpenseStatus(testexpense);
+        Assertions.assertEquals(Status.Denied, testexpense.getApproval());
+    }
+
+    @Test
+    @Order(5)
     void deleteExpenseByExpenseId() {
         boolean result = expenseDao.deleteExpenseByExpId(testexpense.getExpid());
         System.out.println(result);
@@ -51,7 +59,7 @@ public class ExpenseDAOTests {
     }
 
     @Test
-    @Order(5)
+    @Order(6)
     void getAllExpense() {
         Expense b = new Expense(12, 131, 140, Status.valueOf("Pending"));
         Expense c = new Expense(12, 141, 256.99, Status.valueOf("Pending"));

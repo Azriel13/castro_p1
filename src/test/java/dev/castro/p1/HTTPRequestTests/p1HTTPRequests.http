@@ -1,94 +1,106 @@
-POST http://localhost:5000/employee
+POST http://localhost:5000/employees
 
 {"eName":"Michael Castro","eID": 12}
 ###
 
-POST http://localhost:5000/employee
+POST http://localhost:5000/employees
 
 {"eName":"Meghan Castro","eID": 13}
 ###
 
-POST http://localhost:5000/employee
+POST http://localhost:5000/employees
 
 {"eName":"Michelle Castro","eID": 12}
 ###
 
-GET http://localhost:5000/employee
+GET http://localhost:5000/employees
 
 ###
 
-GET http://localhost:5000/employee/12
+GET http://localhost:5000/employees/12
 
 ###
 
-GET http://localhost:5000/employee/15
+GET http://localhost:5000/employees/15
 
 ###
 
-DELETE http://localhost:5000/employee/12
+DELETE http://localhost:5000/employees/13
 
 ###
 
-PUT http://localhost:5000/employee/12
+DELETE http://localhost:5000/employees/15
+
+###
+
+PUT http://localhost:5000/employees/12
 
 {"eName":"Michelle Castro"}
 
 ###
 
-POST http://localhost:5000/employee/12/expense
+POST http://localhost:5000/employees/12/expenses
 
 {"expid":1,"expammount":1250.50}
 
 ###
 
-POST http://localhost:5000/employee/12/expense
+POST http://localhost:5000/employees/12/expenses
 
 {"expid":2,"expammount":12.00}
 
 ###
 
-POST http://localhost:5000/employee/12/expense
+POST http://localhost:5000/employees/12/expenses
 
 {"expid":3,"expammount":120.00}
 
 ###
 
-GET  http://localhost:5000/employee/12/expense
+GET  http://localhost:5000/employees/12/expenses
 
 ###
 
-GET  http://localhost:5000/employee/12/expense/1
+GET  http://localhost:5000/employees/12/expenses/1
 
 ###
 
-GET  http://localhost:5000/employee/12/expense/5
+GET  http://localhost:5000/employees/12/expenses/5
 
 ###
 
-GET http://localhost:5000/employee/12/expense?status=Pending
+GET http://localhost:5000/employees/12/expenses?status=Pending
 
 ###
 
-PUT http://localhost:5000/employee/12/expense/2/Pending
-
-{"approval":"Approved"}
+GET http://localhost:5000/employees/12/expenses?status=Approved
 
 ###
 
-PATCH http://localhost:5000/employee/12/expense/1/Pending
+GET http://localhost:5000/employees/12/expenses?status=Denied
+
+###
+
+PUT http://localhost:5000/employees/12/expenses/2
+
+{"expammount":20, "approval":"Approved"}
+
+###
+
+PATCH http://localhost:5000/employees/12/expenses/1/Denied
+
+{"approval":"Pending"}
+
+###
+
+PATCH http://localhost:5000/employees/12/expenses/1/Approved
 
 {"approval":"Denied"}
 
 ###
 
-PATCH http://localhost:5000/employee/12/expense/1/Denied
-
-{"approval":"Approved"}
+DELETE http://localhost:5000/employees/12/expenses/2
 
 ###
 
-DELETE http://localhost:5000/employee/12/expense/3
-
-###
-
-DELETE http://localhost:5000/employee/12/expense/1
+DELETE http://localhost:5000/employees/12/expenses/1

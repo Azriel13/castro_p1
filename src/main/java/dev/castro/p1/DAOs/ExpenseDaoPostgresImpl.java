@@ -16,13 +16,12 @@ public class ExpenseDaoPostgresImpl implements ExpenseDao {
     public Expense createExpense(Expense expense) {
         try {
             Connection conn = ConnectionsUtil.createConnection();
-            String sql = "insert into expense values (?,?,?,?)";
+            String sql = "insert into expense values (?,?,?)";
             assert conn != null;
             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, expense.getEid());
             ps.setInt(2, expense.getExpid());
             ps.setDouble(3, expense.getExpammount());
-            ps.setObject(4, expense.getApproval(), Types.OTHER);
             ps.execute();
             return expense;
         }  catch (SQLException e) {
@@ -50,6 +49,32 @@ public class ExpenseDaoPostgresImpl implements ExpenseDao {
 
             }else{
                 throw new ResourceNotFound(expid);
+            }
+        }catch(SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public Expense getExpenseByApproval(Status approval) {
+        try{
+            Connection conn = ConnectionsUtil.createConnection();
+            String sql = "select * from expense where approval = ?";
+            assert conn != null;
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setObject(1,approval, Types.OTHER);
+
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                Expense expense= new Expense();
+                expense.setEid(rs.getInt("eid"));
+                expense.setExpid(rs.getInt("expid"));
+                expense.setExpammount(rs.getDouble("expammount"));
+                return expense;
+
+            }else{
+                throw new ResourceNotFound(approval);
             }
         }catch(SQLException e) {
             e.printStackTrace();

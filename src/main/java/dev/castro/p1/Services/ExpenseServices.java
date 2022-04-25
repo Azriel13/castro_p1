@@ -1,6 +1,7 @@
 package dev.castro.p1.Services;
 
 import dev.castro.p1.Entities.Expense;
+import dev.castro.p1.Enums.Status;
 
 import java.util.List;
 
@@ -12,9 +13,7 @@ public interface ExpenseServices {
 
     Expense getExpenseByExpID(int expid);
 
-    List<Expense> getExpenseByEID(int eid);
-
-    List<Expense> getExpenseByApproval(String approval);
+    Expense getExpenseByApproval(Status approval);
 
     boolean deleteExpenseByExpID(int expid);
 

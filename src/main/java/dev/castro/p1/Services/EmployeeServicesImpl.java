@@ -38,7 +38,7 @@ public class EmployeeServicesImpl implements EmployeeServices{
     }
 
     @Override
-    public List<Employee> getEmployeeByEid(int eid) {
+    public Employee getEmployeeByEid(int eid) {
 
         List<Employee> allemployees = this.employeeDao.getAllEmployee();
 
@@ -50,7 +50,7 @@ public class EmployeeServicesImpl implements EmployeeServices{
             }
         }
 
-        return filteredEmployee;
+        return this.employeeDao.getEmployeeAccountByEid(eid);
     }
 
     }
