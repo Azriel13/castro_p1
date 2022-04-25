@@ -17,13 +17,22 @@ public class ExpenseServicesImpl implements ExpenseServices{
     }
     @Override
     public Expense createExpense(Expense expense) {
+        if(expense.getExpammount()>0){
             return this.expenseDao.createExpense(expense);
+    }else{
+            System.out.println("Expense cannot be negative.");
+            return null;
+        }
     }
 
     @Override
     public Expense updateExpenseStatus(Expense expense) {
+        if (expense.getApproval() == Status.Pending) {
             return this.expenseDao.updateExpenseStatus(expense);
-
+        }else{
+            System.out.println("Expense could not be updated");
+            return expense;
+        }
     }
 
     @Override
@@ -42,22 +51,23 @@ public class ExpenseServicesImpl implements ExpenseServices{
     }
 
     @Override
-    public Expense getExpenseByApproval(Status approval) {
+    public List<Expense> getExpenseByApproval(Status approval) {
         List<Expense> allexpense = this.expenseDao.getAllExpense();
 
         List<Expense> filteredExpense = new ArrayList();
 
-        for (Expense expense : allexpense) {
-            if (expense.getApproval() == approval) {
-                filteredExpense.add(expense);
+        for (int i =0;i< allexpense.size() ;i++) {
+            if (allexpense.get(i).getApproval() == approval) {
+                filteredExpense.add(allexpense.get(i));
             }
         }
 
-        return this.expenseDao.getExpenseByApproval(approval);
+        return filteredExpense;
     }
 
     @Override
     public boolean deleteExpenseByExpID(int expid) {
+
             return this.expenseDao.deleteExpenseByExpId(expid);
     }
 

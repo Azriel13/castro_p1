@@ -69,7 +69,7 @@ GET  http://localhost:5000/employees/12/expenses/5
 
 ###
 
-GET http://localhost:5000/employees/12/expenses?status=Pending
+GET http://localhost:5000/employees/12/expenses?approval=Pending
 
 ###
 
@@ -77,13 +77,13 @@ GET http://localhost:5000/employees/12/expenses?status=Approved
 
 ###
 
-GET http://localhost:5000/employees/12/expenses?status=Denied
+GET http://localhost:5000/employees/12/expenses?approval=Denied
 
 ###
 
-PUT http://localhost:5000/employees/12/expenses/2
+PUT http://localhost:5000/employees/12/expenses/1
 
-{"expammount":20, "approval":"Approved"}
+{"approval":"Approved"}
 
 ###
 
@@ -95,7 +95,7 @@ PATCH http://localhost:5000/employees/12/expenses/1/Denied
 
 PATCH http://localhost:5000/employees/12/expenses/1/Approved
 
-{"approval":"Denied"}
+{"approval":"Pending"}
 
 ###
 

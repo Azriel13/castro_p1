@@ -14,7 +14,6 @@ import dev.castro.p1.Services.ExpenseServicesImpl;
 import io.javalin.Javalin;
 
 import java.util.List;
-import java.util.Objects;
 
 public class ExpenseWebApp {
 
@@ -144,11 +143,8 @@ public class ExpenseWebApp {
 
         app.get("/employees/{eid}/expense?status=Pending", context -> {
             int eid = Integer.parseInt(context.pathParam("eid"));
-            String body = context.body();
-            Expense expense = gson.fromJson(body, Expense.class);
-            expense.setEid(eid);
             try{
-                String expenseJSON = gson.toJson(expenseServices.getExpenseByApproval(Status.Pending));
+                String expenseJSON =  gson.toJson(expenseServices.getExpenseByApproval(Status.Pending));
                 context.result(expenseJSON);
             }catch (ResourceNotFound e){
                 context.result("Employee with EID:" +eid+" Or no expense with that approval were not found");
@@ -157,9 +153,6 @@ public class ExpenseWebApp {
 
         app.get("/employees/{eid}/expense?status=Denied", context -> {
             int eid = Integer.parseInt(context.pathParam("eid"));
-            String body = context.body();
-            Expense expense = gson.fromJson(body, Expense.class);
-            expense.setEid(eid);
             try{
                 String expenseJSON = gson.toJson(expenseServices.getExpenseByApproval(Status.Denied));
                 context.result(expenseJSON);
@@ -170,9 +163,6 @@ public class ExpenseWebApp {
 
         app.get("/employees/{eid}/expense?status=Approved", context -> {
             int eid = Integer.parseInt(context.pathParam("eid"));
-            String body = context.body();
-            Expense expense = gson.fromJson(body, Expense.class);
-            expense.setEid(eid);
             try{
                 String expenseJSON = gson.toJson(expenseServices.getExpenseByApproval(Status.Approved));
                 context.result(expenseJSON);
@@ -202,20 +192,21 @@ public class ExpenseWebApp {
             int expid = Integer.parseInt(context.pathParam("expid"));
             String body = context.body();
             Expense expense = gson.fromJson(body, Expense.class);
+            expense.setEid(eid);
             expense.setExpid(expid);
-            try{
-            if(Objects.equals(expense.getApproval(), Status.Pending)){
-                expense.setApproval(Status.Denied);
-                expenseServices.updateExpenseStatus(expense);
-                context.result("Status has been changed");
-                context.status(200);
-            }else{
-                System.out.println("Expense can no longer be changed.");
-            }
-            }catch (ResourceNotFound e) {
-                context.status(404);
-                context.result("Employee with EID: " + eid + " not found, or expense with ExpID: "+expid+" not found.");
-            }
+                try {
+                    if (expense.getApproval() == Status.Pending) {
+                        expense.setApproval(Status.Denied);
+                        expenseServices.updateExpenseStatus(expense);
+                        context.result("Status has been changed");
+                        context.status(200);
+                    } else {
+                        System.out.println("Expense can no longer be changed.");
+                    }
+                } catch (ResourceNotFound e) {
+                    context.status(404);
+                    context.result("Employee with EID: " + eid + " not found, or expense with ExpID: " + expid + " not found.");
+                }
 
         });
 
@@ -224,20 +215,21 @@ public class ExpenseWebApp {
             int expid = Integer.parseInt(context.pathParam("expid"));
             String body = context.body();
             Expense expense = gson.fromJson(body, Expense.class);
+            expense.setEid(eid);
             expense.setExpid(expid);
-            try{
-                if(Objects.equals(expense.getApproval(), Status.Pending)){
-                    expense.setApproval(Status.Approved);
-                    expenseServices.updateExpenseStatus(expense);
-                    context.result("Status has been changed");
-                    context.status(200);
-                }else{
-                    System.out.println("Expense can no longer be changed.");
+                try {
+                    if (expense.getApproval() == Status.Pending) {
+                        expense.setApproval(Status.Approved);
+                        expenseServices.updateExpenseStatus(expense);
+                        context.result("Status has been changed");
+                        context.status(200);
+                    } else {
+                        System.out.println("Expense can no longer be changed.");
+                    }
+                }catch (ResourceNotFound e) {
+                    context.status(404);
+                    context.result("Employee with EID: " + eid + " not found, or expense with ExpID: " + expid + " not found.");
                 }
-            }catch (ResourceNotFound e) {
-                context.status(404);
-                context.result("Employee with EID: " + eid + " not found, or expense with ExpID: "+expid+" not found.");
-            }
 
         });
 
@@ -245,13 +237,19 @@ public class ExpenseWebApp {
         app.delete("/employees/{eid}/expenses/{expid}",context -> {
             int eid = Integer.parseInt(context.pathParam("eid"));
             int expid = Integer.parseInt(context.pathParam("expid"));
-
-            try{
-                String expenseJSON = gson.toJson(expenseServices.deleteExpenseByExpID(expid));
-                context.result(expenseJSON);
-            }catch(ResourceNotFound e){
-                context.status(404);
-                context.result("Employee with EID: "+eid+" not found or Expense with ExpID: "+expid+" not found.");
+            String body = context.body();
+            Expense expense = gson.fromJson(body, Expense.class);
+            expense.setExpid(expid);
+            if(expense.getApproval() == Status.Pending) {
+                try {
+                    String expenseJSON = gson.toJson(expenseServices.deleteExpenseByExpID(expid));
+                    context.result(expenseJSON);
+                } catch (ResourceNotFound e) {
+                    context.status(404);
+                    context.result("Employee with EID: " + eid + " not found or Expense with ExpID: " + expid + " not found.");
+                }
+            }else{
+                System.out.println("This expense cannot be deleted.");
             }
         });
 
