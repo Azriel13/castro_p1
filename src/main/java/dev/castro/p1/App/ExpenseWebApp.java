@@ -106,10 +106,16 @@ public class ExpenseWebApp {
                 String body = context.body();
                 Expense expense = gson.fromJson(body, Expense.class);
                 expense.setEid(eid);
-                expenseServices.createExpense(expense);
-                context.status(201);
-                String eJson = gson.toJson(expense);
-                context.result(eJson);
+                if(expense.getExpammount()>0) {
+                    expenseServices.createExpense(expense);
+                    context.status(201);
+                    String eJson = gson.toJson(expense);
+                    context.result(eJson);
+                }
+                else{
+                    String mJson = "Expense cannot be negative";
+                    context.result(mJson);
+                }
             }catch (DuplicateResource e){
                 context.status(409);
                 context.result("The expense already exists.");
@@ -187,51 +193,32 @@ public class ExpenseWebApp {
             }
         });
 
-        app.patch("/employees/{eid}/expenses/{expid}/Denied",context -> {
+        app.patch("/employees/{eid}/expenses/{expid}/{approval}",context -> {
             int eid = Integer.parseInt(context.pathParam("eid"));
             int expid = Integer.parseInt(context.pathParam("expid"));
+            Status approval = Status.valueOf(context.pathParam("approval"));
             String body = context.body();
             Expense expense = gson.fromJson(body, Expense.class);
             expense.setEid(eid);
             expense.setExpid(expid);
                 try {
                     if (expense.getApproval() == Status.Pending) {
-                        expense.setApproval(Status.Denied);
+                        expense.setApproval(approval);
                         expenseServices.updateExpenseStatus(expense);
                         context.result("Status has been changed");
                         context.status(200);
-                    } else {
-                        System.out.println("Expense can no longer be changed.");
+                    }else{
+                        String mJson = "Expense can no longer be changed.";
+                        context.result(mJson);
                     }
                 } catch (ResourceNotFound e) {
                     context.status(404);
                     context.result("Employee with EID: " + eid + " not found, or expense with ExpID: " + expid + " not found.");
                 }
 
-        });
-
-        app.patch("/employees/{eid}/expenses/{expid}/Approved",context -> {
-            int eid = Integer.parseInt(context.pathParam("eid"));
-            int expid = Integer.parseInt(context.pathParam("expid"));
-            String body = context.body();
-            Expense expense = gson.fromJson(body, Expense.class);
-            expense.setEid(eid);
-            expense.setExpid(expid);
-                try {
-                    if (expense.getApproval() == Status.Pending) {
-                        expense.setApproval(Status.Approved);
-                        expenseServices.updateExpenseStatus(expense);
-                        context.result("Status has been changed");
-                        context.status(200);
-                    } else {
-                        System.out.println("Expense can no longer be changed.");
-                    }
-                }catch (ResourceNotFound e) {
-                    context.status(404);
-                    context.result("Employee with EID: " + eid + " not found, or expense with ExpID: " + expid + " not found.");
-                }
 
         });
+
 
 
         app.delete("/employees/{eid}/expenses/{expid}",context -> {
@@ -249,7 +236,8 @@ public class ExpenseWebApp {
                     context.result("Employee with EID: " + eid + " not found or Expense with ExpID: " + expid + " not found.");
                 }
             }else{
-                System.out.println("This expense cannot be deleted.");
+                String mJson = "This expense cannot be deleted.";
+                context.result(mJson);
             }
         });
 

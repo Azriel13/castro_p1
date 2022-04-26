@@ -6,7 +6,6 @@ import dev.castro.p1.Enums.Status;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class ExpenseServicesImpl implements ExpenseServices{
 
@@ -17,22 +16,13 @@ public class ExpenseServicesImpl implements ExpenseServices{
     }
     @Override
     public Expense createExpense(Expense expense) {
-        if(expense.getExpammount()>0){
             return this.expenseDao.createExpense(expense);
-    }else{
-            System.out.println("Expense cannot be negative.");
-            return null;
-        }
     }
 
     @Override
     public Expense updateExpenseStatus(Expense expense) {
-        if (expense.getApproval() == Status.Pending) {
+
             return this.expenseDao.updateExpenseStatus(expense);
-        }else{
-            System.out.println("Expense could not be updated");
-            return expense;
-        }
     }
 
     @Override
