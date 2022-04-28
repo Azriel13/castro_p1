@@ -13,12 +13,12 @@ import java.util.List;
     private int eid;
     private int expid;
     private double expammount;
-    private Status approval;
 
-    public Expense(int eid, int expid, double expammount, Status approval) {
+    private Status approval = Status.Pending;
+
+    public Expense(int eid, int expid, double expammount) {
         this.eid = eid;
         this.expid = expid;
         this.expammount = expammount;
-        this.approval = approval;
     }
 }

@@ -19,7 +19,7 @@ public class ExpenseDAOTests {
     @Test
     @Order(1)
     void createExpenseTest() {
-        Expense azr = new Expense(12, 121, 1200.00,Status.Pending);
+        Expense azr = new Expense(12, 121, 1200.00);
         Expense expense = expenseDao.createExpense(azr);
         ExpenseDAOTests.testexpense = expense;
         Assertions.assertEquals(Status.Pending, expense.getApproval());
@@ -61,8 +61,8 @@ public class ExpenseDAOTests {
     @Test
     @Order(6)
     void getAllExpense() {
-        Expense b = new Expense(12, 131, 140, Status.valueOf("Pending"));
-        Expense c = new Expense(12, 141, 256.99, Status.valueOf("Pending"));
+        Expense b = new Expense(12, 131, 140);
+        Expense c = new Expense(12, 141, 256.99);
         expenseDao.createExpense(b);
         expenseDao.createExpense(c);
         List<Expense> expenses = expenseDao.getAllExpense();

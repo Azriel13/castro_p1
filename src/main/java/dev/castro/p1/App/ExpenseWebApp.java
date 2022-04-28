@@ -197,19 +197,17 @@ public class ExpenseWebApp {
             int eid = Integer.parseInt(context.pathParam("eid"));
             int expid = Integer.parseInt(context.pathParam("expid"));
             Status approval = Status.valueOf(context.pathParam("approval"));
-            String body = context.body();
-            Expense expense = gson.fromJson(body, Expense.class);
+            Expense expense = new Expense();
             expense.setEid(eid);
             expense.setExpid(expid);
+            expense.setApproval(approval);
                 try {
-                    if (expense.getApproval() == Status.Pending) {
-                        expense.setApproval(approval);
                         expenseServices.updateExpenseStatus(expense);
+                        if(expense.getApproval() != Status.Pending) {
                         context.result("Status has been changed");
                         context.status(200);
                     }else{
-                        String mJson = "Expense can no longer be changed.";
-                        context.result(mJson);
+                        context.result("Status not changed.");
                     }
                 } catch (ResourceNotFound e) {
                     context.status(404);
@@ -221,12 +219,13 @@ public class ExpenseWebApp {
 
 
 
-        app.delete("/employees/{eid}/expenses/{expid}",context -> {
+        app.delete("/employees/{eid}/expenses/{expid}/{approval}",context -> {
             int eid = Integer.parseInt(context.pathParam("eid"));
             int expid = Integer.parseInt(context.pathParam("expid"));
-            String body = context.body();
-            Expense expense = gson.fromJson(body, Expense.class);
+            Status approval = Status.valueOf(context.pathParam("approval"));
+            Expense expense = new Expense();
             expense.setExpid(expid);
+            expense.setApproval(approval);
             if(expense.getApproval() == Status.Pending) {
                 try {
                     String expenseJSON = gson.toJson(expenseServices.deleteExpenseByExpID(expid));
