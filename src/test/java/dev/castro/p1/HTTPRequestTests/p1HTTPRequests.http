@@ -41,25 +41,25 @@ PUT http://localhost:5000/employees/12
 
 POST http://localhost:5000/employees/12/expenses
 
-{"expid":1,"expammount":1250.50}
+{"expid":1,"expammount":1250.50, "approval":"Pending"}
 
 ###
 
 POST http://localhost:5000/employees/12/expenses
 
-{"expid":2,"expammount":12.00}
+{"expid":2,"expammount":12.00,"approval":"Pending"}
 
 ###
 
 POST http://localhost:5000/employees/12/expenses
 
-{"expid":3,"expammount":120.00}
+{"expid":3,"expammount":120.00, "approval":"Pending"}
 
 ###
 
 POST http://localhost:5000/employees/12/expenses
 
-{"expid":4,"expammount":-200.00}
+{"expid":4,"expammount":-200.00, "approval":"Pending"}
 
 ###
 
@@ -75,7 +75,7 @@ GET  http://localhost:5000/employees/12/expenses/5
 
 ###
 
-GET http://localhost:5000/employees/12/expenses?approval=Pending
+GET http://localhost:5000/employees/12/expenses?status=Pending
 
 ###
 
@@ -83,7 +83,7 @@ GET http://localhost:5000/employees/12/expenses?status=Approved
 
 ###
 
-GET http://localhost:5000/employees/12/expenses?approval=Denied
+GET http://localhost:5000/employees/12/expenses?status=Denied
 
 ###
 
@@ -93,11 +93,11 @@ PUT http://localhost:5000/employees/12/expenses/1
 
 ###
 
-PATCH http://localhost:5000/employees/12/expenses/1/Denied
+PATCH http://localhost:5000/expenses/1/Denied
 
 ###
 
-PATCH http://localhost:5000/employees/12/expenses/1/Approved
+PATCH http://localhost:5000/expenses/1/Approved
 
 
 ###

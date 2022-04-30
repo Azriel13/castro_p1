@@ -4,6 +4,7 @@ import dev.castro.p1.Entities.Expense;
 import dev.castro.p1.Enums.Status;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 public interface ExpenseServices {
 
@@ -13,8 +14,7 @@ public interface ExpenseServices {
 
     Expense getExpenseByExpID(int expid);
 
-
-    List<Expense> getExpenseByApproval(Status approval);
+    Expense getExpenseByEID(int eid);
 
     boolean deleteExpenseByExpID(int expid);
 

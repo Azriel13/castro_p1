@@ -7,18 +7,20 @@ import java.util.List;
 
 @Data
     public class Expense{
-    public Expense() {
-    }
 
     private int eid;
     private int expid;
     private double expammount;
 
-    private Status approval = Status.Pending;
+    private Status approval;
 
-    public Expense(int eid, int expid, double expammount) {
+    public Expense() {
+    }
+
+    public Expense(int eid, int expid, double expammount, Status approval) {
         this.eid = eid;
         this.expid = expid;
         this.expammount = expammount;
+        this.approval = approval;
     }
 }

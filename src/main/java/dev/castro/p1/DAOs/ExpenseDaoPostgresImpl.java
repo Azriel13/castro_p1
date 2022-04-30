@@ -16,12 +16,13 @@ public class ExpenseDaoPostgresImpl implements ExpenseDao {
     public Expense createExpense(Expense expense) {
         try {
             Connection conn = ConnectionsUtil.createConnection();
-            String sql = "insert into expense values (?,?,?)";
+            String sql = "insert into expense values (?,?,?,?)";
             assert conn != null;
             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, expense.getEid());
             ps.setInt(2, expense.getExpid());
             ps.setDouble(3, expense.getExpammount());
+            ps.setObject(4, expense.getApproval(), Types.OTHER);
             ps.execute();
             return expense;
         }  catch (SQLException e) {
@@ -45,6 +46,7 @@ public class ExpenseDaoPostgresImpl implements ExpenseDao {
                 expense.setEid(rs.getInt("eid"));
                 expense.setExpid(rs.getInt("expid"));
                 expense.setExpammount(rs.getDouble("expammount"));
+                expense.setApproval(Status.valueOf(rs.getString("approval")));
                 return expense;
 
             }else{
@@ -71,6 +73,7 @@ public class ExpenseDaoPostgresImpl implements ExpenseDao {
                 expense.setEid(rs.getInt("eid"));
                 expense.setExpid(rs.getInt("expid"));
                 expense.setExpammount(rs.getDouble("expammount"));
+                expense.setApproval(Status.valueOf(rs.getString("approval")));
                 return expense;
 
             }else{
