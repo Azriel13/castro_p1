@@ -11,7 +11,7 @@ public interface ExpenseDao {
 
     Expense getExpenseByExpId(int expid);
 
-    Expense getExpenseByApproval (Status approval);
+    List<Expense> getExpenseByApproval (Status approval);
 
     List<Expense> getAllExpense();
 

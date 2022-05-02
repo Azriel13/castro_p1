@@ -14,9 +14,10 @@ public interface ExpenseServices {
 
     Expense getExpenseByExpID(int expid);
 
-    Expense getExpenseByEID(int eid);
 
     boolean deleteExpenseByExpID(int expid);
+
+    List<Expense> getExpenseByApproval(Status approval);
 
     List<Expense> getAllExpense();
 

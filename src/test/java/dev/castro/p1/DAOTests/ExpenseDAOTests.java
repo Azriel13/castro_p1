@@ -19,7 +19,7 @@ public class ExpenseDAOTests {
     @Test
     @Order(1)
     void createExpenseTest() {
-        Expense azr = new Expense(12, 121, 1200.00, Status.Pending);
+        Expense azr = new Expense(12, 1231, 1200.00, Status.Pending);
         Expense expense = expenseDao.createExpense(azr);
         ExpenseDAOTests.testexpense = expense;
         Assertions.assertEquals(Status.Pending, expense.getApproval());
@@ -28,17 +28,23 @@ public class ExpenseDAOTests {
     @Test
     @Order(2)
     void getExpenseByExpenseID() {
-        Expense retrievedExpense = expenseDao.getExpenseByExpId(testexpense.getExpid());
-        System.out.println(retrievedExpense);
-        Assertions.assertEquals(1200.00, testexpense.getExpammount());
+
+        Assertions.assertEquals(1231, testexpense.getExpid());
     }
 
     @Test
     @Order(3)
     void getExpenseByApproval(){
-        Expense retrievedExpense = expenseDao.getExpenseByApproval(testexpense.getApproval());
-        System.out.println(retrievedExpense);
-        Assertions.assertEquals(Status.Pending, testexpense.getApproval());
+        Expense b = new Expense(12, 1311, 140, Status.Approved);
+        Expense c = new Expense(12, 1411, 256.99, Status.Denied);
+        Expense d = new Expense(12, 1511, 2.99, Status.Pending);
+        expenseDao.createExpense(b);
+        expenseDao.createExpense(c);
+        expenseDao.createExpense(d);
+        List<Expense> expenses = expenseDao.getExpenseByApproval(Status.Pending);
+        System.out.println(expenses);
+        int totalExpenses = expenses.size();
+        Assertions.assertTrue(totalExpenses ==4);
 
     }
 
@@ -52,10 +58,7 @@ public class ExpenseDAOTests {
 
     @Test
     @Order(5)
-    @Disabled
     void deleteExpenseByExpenseId() {
-        boolean result = expenseDao.deleteExpenseByExpId(testexpense.getExpid());
-        System.out.println(result);
         Assertions.assertEquals(true, expenseDao.deleteExpenseByExpId(testexpense.getExpid()));
     }
 
@@ -71,6 +74,9 @@ public class ExpenseDAOTests {
         Assertions.assertTrue(totalExpenses >= 2);
         expenseDao.deleteExpenseByExpId(b.getExpid());
         expenseDao.deleteExpenseByExpId(c.getExpid());
+        expenseDao.deleteExpenseByExpId(1311);
+        expenseDao.deleteExpenseByExpId(1411);
+        expenseDao.deleteExpenseByExpId(1511);
     }
 }
 

@@ -39,72 +39,78 @@ PUT http://localhost:5000/employees/12
 
 ###
 
-POST http://localhost:5000/employees/12/expenses
+POST http://localhost:5000/expenses
 
-{"expid":1,"expammount":1250.50, "approval":"Pending"}
-
-###
-
-POST http://localhost:5000/employees/12/expenses
-
-{"expid":2,"expammount":12.00,"approval":"Pending"}
+{"eid":12, "expid":1221,"expammount":1250.50, "approval":"Pending"}
 
 ###
 
 POST http://localhost:5000/employees/12/expenses
 
-{"expid":3,"expammount":120.00, "approval":"Pending"}
+{"expid":121,"expammount":1250.50, "approval":"Pending"}
 
 ###
 
 POST http://localhost:5000/employees/12/expenses
 
-{"expid":4,"expammount":-200.00, "approval":"Pending"}
+{"expid":122,"expammount":12.00,"approval":"Pending"}
 
 ###
 
-GET  http://localhost:5000/employees/12/expenses
+POST http://localhost:5000/employees/12/expenses
+
+{"expid":123,"expammount":120.00, "approval":"Pending"}
 
 ###
 
-GET  http://localhost:5000/employees/12/expenses/1
+POST http://localhost:5000/employees/12/expenses
+
+{"expid":124,"expammount":-200.00, "approval":"Pending"}
 
 ###
 
-GET  http://localhost:5000/employees/12/expenses/5
+GET  http://localhost:5000/expenses
 
 ###
 
-GET http://localhost:5000/employees/12/expenses?status=Pending
+GET  http://localhost:5000/expenses/121
 
 ###
 
-GET http://localhost:5000/employees/12/expenses?status=Approved
+GET  http://localhost:5000/expenses/125
 
 ###
 
-GET http://localhost:5000/employees/12/expenses?status=Denied
+GET http://localhost:5000/expenses?status=Pending
 
 ###
 
-PUT http://localhost:5000/employees/12/expenses/1
+GET http://localhost:5000/expenses?status=Approved
+
+###
+
+GET http://localhost:5000/expenses?status=Denied
+
+###
+
+PUT http://localhost:5000/employees/12/expenses/121
 
 {"approval":"Pending"}
 
 ###
 
-PATCH http://localhost:5000/expenses/1/Denied
+PATCH http://localhost:5000/expenses/121/Denied
 
 ###
 
-PATCH http://localhost:5000/expenses/1/Approved
-
-
-###
-
-DELETE http://localhost:5000/employees/12/expenses/2/Pending
+PATCH http://localhost:5000/expenses/121/Approved
 
 
 ###
 
-DELETE http://localhost:5000/employees/12/expenses/1/Denied
+DELETE http://localhost:5000/expenses/122/Pending
+
+
+###
+
+DELETE http://localhost:5000/expenses/121/Denied

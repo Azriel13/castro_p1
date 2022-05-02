@@ -13,7 +13,10 @@ import dev.castro.p1.Services.ExpenseServices;
 import dev.castro.p1.Services.ExpenseServicesImpl;
 import io.javalin.Javalin;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class ExpenseWebApp {
 
@@ -98,6 +101,25 @@ public class ExpenseWebApp {
 
         // START OF EXPENSE ROUTES
 
+        app.post("/expenses", context -> {
+            try {
+                String body = context.body();
+                Expense expense = gson.fromJson(body, Expense.class);
+                if(expense.getExpammount()>0) {
+                    expenseServices.createExpense(expense);
+                    context.status(201);
+                    String eJson = gson.toJson(expense);
+                    context.result(eJson);
+                }
+                else{
+                    String mJson = "Expense cannot be negative";
+                    context.result(mJson);
+                }
+            }catch (DuplicateResource e){
+                context.status(409);
+                context.result("The expense already exists.");
+            }
+        });
 
 
         app.post("/employees/{eid}/expenses", context -> {
@@ -122,11 +144,18 @@ public class ExpenseWebApp {
             }
         });
 
-        app.get("/employees/{eid}/expenses", context -> {
+        app.get("/expenses", context -> {
             try {
-                List<Expense> expenses = expenseServices.getAllExpense();
-                String expenseJSON = gson.toJson(expenses);
-                context.result(expenseJSON);
+                String param = context.queryParam("status");
+                if(param == null) {
+                    List<Expense> expenses = expenseServices.getAllExpense();
+                    String expenseJSON = gson.toJson(expenses);
+                    context.result(expenseJSON);
+                }else{
+                    List<Expense> expenses = expenseServices.getExpenseByApproval(Status.valueOf(param));
+                    String expenseJSON = gson.toJson(expenses);
+                    context.result(expenseJSON);
+                }
             }catch (ResourceNotFound e){
                 context.status(404);
                 context.result("There are currently no expenses.");
@@ -147,22 +176,7 @@ public class ExpenseWebApp {
             }
         });
 
-        app.get("/employees/{eid}/expense?status={approval}", context -> {
-            int eid = Integer.parseInt(context.pathParam("eid"));
-            Expense expense = expenseServices.getExpenseByEID(eid);
-            Status approval = Status.valueOf(context.pathParam("approval"));
-            expense.setEid(eid);
-            expense.setApproval(approval);
-            try{
-                String expenseJSON = gson.toJson(expenseServices.getExpenseByEID(eid));
-                context.result(expenseJSON);
-            }catch (ResourceNotFound e){
-                context.result("Employee with EID:" +eid+" Or no expense with that approval were not found");
-            }
-        });
-
-        app.put("/employees/{eid}/expenses/{expid}", context -> {
-            int eid = Integer.parseInt(context.pathParam("eid"));
+        app.put("/expenses/{expid}", context -> {
             int expid = Integer.parseInt(context.pathParam("expid"));
 
             try {
@@ -173,9 +187,10 @@ public class ExpenseWebApp {
                 context.result("Expense changed.");
             }catch (ResourceNotFound e) {
                 context.status(404);
-                context.result("Employee with EID: " + eid + " not found, or expense with ExpID: "+expid+" not found.");
+                context.result("Expense with ExpID: "+expid+" not found.");
             }
         });
+
         app.patch("/expenses/{expid}/{approval}",context -> {
             int expid = Integer.parseInt(context.pathParam("expid"));
             Expense expense = expenseServices.getExpenseByExpID(expid);
@@ -199,10 +214,7 @@ public class ExpenseWebApp {
 
         });
 
-
-
         app.delete("/expenses/{expid}/{approval}",context -> {
-            int eid = Integer.parseInt(context.pathParam("eid"));
             int expid = Integer.parseInt(context.pathParam("expid"));
             Status approval = Status.valueOf(context.pathParam("approval"));
             Expense expense = new Expense();
@@ -218,7 +230,7 @@ public class ExpenseWebApp {
                     }
                 } catch (ResourceNotFound e) {
                     context.status(404);
-                    context.result("Employee with EID: " + eid + " not found or Expense with ExpID: " + expid + " not found.");
+                    context.result("Expense with ExpID: " + expid + " not found.");
                 }
 
         });

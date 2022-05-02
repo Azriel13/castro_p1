@@ -59,26 +59,27 @@ public class ExpenseDaoPostgresImpl implements ExpenseDao {
     }
 
     @Override
-    public Expense getExpenseByApproval(Status approval) {
+    public List<Expense> getExpenseByApproval(Status approval) {
         try{
             Connection conn = ConnectionsUtil.createConnection();
             String sql = "select * from expense where approval = ?";
             assert conn != null;
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setObject(1,approval, Types.OTHER);
-
             ResultSet rs = ps.executeQuery();
-            if(rs.next()){
-                Expense expense= new Expense();
+
+            List<Expense> expenses = new ArrayList();
+            while(rs.next()) {
+                Expense expense = new Expense();
                 expense.setEid(rs.getInt("eid"));
                 expense.setExpid(rs.getInt("expid"));
                 expense.setExpammount(rs.getDouble("expammount"));
                 expense.setApproval(Status.valueOf(rs.getString("approval")));
-                return expense;
+                expenses.add(expense);
 
-            }else{
-                throw new ResourceNotFound(approval);
             }
+                return expenses;
+
         }catch(SQLException e) {
             e.printStackTrace();
             return null;
@@ -100,6 +101,7 @@ public class ExpenseDaoPostgresImpl implements ExpenseDao {
                 expense.setEid(rs.getInt("eid"));
                 expense.setExpid(rs.getInt("expid"));
                 expense.setExpammount(rs.getDouble("expammount"));
+                expense.setApproval(Status.valueOf(rs.getString("approval")));
                 expenses.add(expense);
             }
 
@@ -147,4 +149,6 @@ public class ExpenseDaoPostgresImpl implements ExpenseDao {
             return false;
         }
     }
+
+
 }

@@ -6,8 +6,6 @@ import dev.castro.p1.Enums.Status;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class ExpenseServicesImpl implements ExpenseServices{
 
@@ -18,7 +16,7 @@ public class ExpenseServicesImpl implements ExpenseServices{
     }
     @Override
     public Expense createExpense(Expense expense) {
-        expense.setApproval(Status.Pending);
+
             return this.expenseDao.createExpense(expense);
     }
 
@@ -31,32 +29,15 @@ public class ExpenseServicesImpl implements ExpenseServices{
 
     @Override
     public Expense getExpenseByExpID(int expid) {
-        List<Expense> allexpense = this.expenseDao.getAllExpense();
-
-        List<Expense> filteredExpense = new ArrayList();
-
-        for (Expense expense : allexpense) {
-            if (expense.getExpid() == expid) {
-                filteredExpense.add(expense);
-            }
-        }
 
         return this.expenseDao.getExpenseByExpId(expid);
     }
 
+
     @Override
-    public Expense getExpenseByEID(int eid) {
-        List<Expense> allexpense = this.expenseDao.getAllExpense();
+    public List<Expense> getExpenseByApproval(Status approval) {
 
-        List<Expense> filteredExpense = new ArrayList();
-
-        for (Expense expense : allexpense) {
-            if (expense.getEid() == eid) {
-                filteredExpense.add(expense);
-            }
-        }
-
-        return this.expenseDao.getExpenseByExpId(eid);
+        return this.expenseDao.getExpenseByApproval(approval);
     }
 
 
@@ -68,6 +49,9 @@ public class ExpenseServicesImpl implements ExpenseServices{
 
     @Override
     public List<Expense> getAllExpense() {
+
         return this.expenseDao.getAllExpense();
+
     }
+
 }
