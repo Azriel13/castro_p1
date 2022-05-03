@@ -4,6 +4,8 @@ import dev.castro.p1.Entities.Expense;
 import dev.castro.p1.Enums.Status;
 import dev.castro.p1.Exceptions.ResourceNotFound;
 import dev.castro.p1.Utilities.ConnectionsUtil;
+import dev.castro.p1.Utilities.Logger;
+import jdk.jfr.internal.LogLevel;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -26,6 +28,7 @@ public class ExpenseDaoPostgresImpl implements ExpenseDao {
             ps.execute();
             return expense;
         }  catch (SQLException e) {
+            Logger.log("Error at creating Expense", LogLevel.DEBUG);
             e.printStackTrace();
             return null;
         }
@@ -53,6 +56,7 @@ public class ExpenseDaoPostgresImpl implements ExpenseDao {
                 throw new ResourceNotFound(expid);
             }
         }catch(SQLException e) {
+            Logger.log("Error at getting EXPID", LogLevel.DEBUG);
             e.printStackTrace();
             return null;
         }
@@ -81,6 +85,7 @@ public class ExpenseDaoPostgresImpl implements ExpenseDao {
                 return expenses;
 
         }catch(SQLException e) {
+            Logger.log("Error at getting expense by approval", LogLevel.DEBUG);
             e.printStackTrace();
             return null;
         }
@@ -108,6 +113,7 @@ public class ExpenseDaoPostgresImpl implements ExpenseDao {
             return expenses;
 
         } catch (SQLException e) {
+            Logger.log("Error at getting all expenses", LogLevel.DEBUG);
             e.printStackTrace();
             return null;
         }
@@ -126,8 +132,7 @@ public class ExpenseDaoPostgresImpl implements ExpenseDao {
             return  expense;
 
         } catch (SQLException e) {
-            System.out.println("ExpID not valid, or invalid approval status\n Please try a new ExpID" +
-                    "\n or input one of two options: \nApproved\nDenied");
+            Logger.log("Error at getting updating expense", LogLevel.DEBUG);
             e.printStackTrace();
             return  null;
         }
@@ -144,7 +149,7 @@ public class ExpenseDaoPostgresImpl implements ExpenseDao {
             ps.execute();
             return  true;
         } catch (SQLException e) {
-            System.out.println("ExpID not valid.");
+            Logger.log("Error at deleting expense by expid", LogLevel.DEBUG);
             e.printStackTrace();
             return false;
         }

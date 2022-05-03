@@ -44,7 +44,7 @@ public class ExpenseDAOTests {
         List<Expense> expenses = expenseDao.getExpenseByApproval(Status.Pending);
         System.out.println(expenses);
         int totalExpenses = expenses.size();
-        Assertions.assertTrue(totalExpenses ==4);
+        Assertions.assertTrue(totalExpenses ==2);
 
     }
 

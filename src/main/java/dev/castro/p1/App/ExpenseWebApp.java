@@ -11,12 +11,12 @@ import dev.castro.p1.Services.EmployeeServices;
 import dev.castro.p1.Services.EmployeeServicesImpl;
 import dev.castro.p1.Services.ExpenseServices;
 import dev.castro.p1.Services.ExpenseServicesImpl;
+import dev.castro.p1.Utilities.Logger;
 import io.javalin.Javalin;
+import jdk.jfr.internal.LogLevel;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
+
 
 public class ExpenseWebApp {
 
@@ -43,6 +43,7 @@ public class ExpenseWebApp {
                 String eJson = gson.toJson(employee);
                 context.result(eJson);
             }catch (DuplicateResource e){
+                Logger.log("Duplicate Employee",LogLevel.INFO);
                 context.status(409);
                 context.result("Exmployee already exists.");
             }
@@ -54,6 +55,7 @@ public class ExpenseWebApp {
                 String employeeJSON = gson.toJson(employees);
                 context.result(employeeJSON);
             }catch (ResourceNotFound e){
+                Logger.log("No existing employees", LogLevel.INFO);
                 context.status(404);
                 context.result("Currently no employees exist.");
             }
@@ -66,6 +68,7 @@ public class ExpenseWebApp {
                 String employeeJSON =  gson.toJson(employeeServices.getEmployeeByEid(eid));
                 context.result(employeeJSON);
             }catch (ResourceNotFound e){
+                Logger.log("EID not found", LogLevel.INFO);
                 context.status(404);
                 context.result("Employee with EID: "+eid+" not found.");
             }
@@ -81,6 +84,7 @@ public class ExpenseWebApp {
                 employeeServices.updateEmployeeInformation(employee);
                 context.result("Name Changed");
             }catch (ResourceNotFound e) {
+                Logger.log("EID not found", LogLevel.INFO);
                 context.status(404);
                 context.result("Employee with EID: " + eid + " not found.");
             }
@@ -92,6 +96,7 @@ public class ExpenseWebApp {
                 String employeeJSON = gson.toJson(employeeServices.deleteEmployeeByEid(eid));
                 context.result(employeeJSON);
             }catch(ResourceNotFound e){
+                Logger.log("EID not found", LogLevel.INFO);
                 context.status(404);
                 context.result("Employee with EID: "+eid+" not found");
             }
@@ -116,6 +121,7 @@ public class ExpenseWebApp {
                     context.result(mJson);
                 }
             }catch (DuplicateResource e){
+                Logger.log("Duplicate Expense",LogLevel.INFO);
                 context.status(409);
                 context.result("The expense already exists.");
             }
@@ -139,6 +145,7 @@ public class ExpenseWebApp {
                     context.result(mJson);
                 }
             }catch (DuplicateResource e){
+                Logger.log("Duplicate Expense",LogLevel.INFO);
                 context.status(409);
                 context.result("The expense already exists.");
             }
@@ -157,6 +164,7 @@ public class ExpenseWebApp {
                     context.result(expenseJSON);
                 }
             }catch (ResourceNotFound e){
+                Logger.log("Currently no Expense exists",LogLevel.INFO);
                 context.status(404);
                 context.result("There are currently no expenses.");
             }
@@ -171,6 +179,7 @@ public class ExpenseWebApp {
                 String expenseJSON = gson.toJson(expenseServices.getExpenseByExpID(expid));
                 context.result(expenseJSON);
             } catch (ResourceNotFound e) {
+                Logger.log("EID or EXPID not found",LogLevel.INFO);
                 context.status(404);
                 context.result("Employee with EID:" + eid + " not found, or " + "Expense with ExpID: " + expid + " not found.");
             }
@@ -186,6 +195,7 @@ public class ExpenseWebApp {
                 expenseServices.updateExpenseStatus(expense);
                 context.result("Expense changed.");
             }catch (ResourceNotFound e) {
+                Logger.log("EXPID not found",LogLevel.INFO);
                 context.status(404);
                 context.result("Expense with ExpID: "+expid+" not found.");
             }
@@ -207,8 +217,9 @@ public class ExpenseWebApp {
                 }
 
             } catch (ResourceNotFound e) {
+                Logger.log("EXPID not found",LogLevel.INFO);
                 context.status(404);
-                context.result(" not found, or expense with ExpID: " + expid + " not found.");
+                context.result(" Expense with ExpID: " + expid + " not found.");
             }
 
 
@@ -229,6 +240,7 @@ public class ExpenseWebApp {
                         context.result(mJson);
                     }
                 } catch (ResourceNotFound e) {
+                    Logger.log("EXPID not found",LogLevel.INFO);
                     context.status(404);
                     context.result("Expense with ExpID: " + expid + " not found.");
                 }

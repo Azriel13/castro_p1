@@ -3,6 +3,8 @@ package dev.castro.p1.DAOs;
 import dev.castro.p1.Entities.Employee;
 import dev.castro.p1.Exceptions.ResourceNotFound;
 import dev.castro.p1.Utilities.ConnectionsUtil;
+import dev.castro.p1.Utilities.Logger;
+import jdk.jfr.internal.LogLevel;
 import org.postgresql.util.PSQLException;
 
 import java.sql.*;
@@ -24,7 +26,7 @@ public class EmployeeDaoPostgresImpl implements EmployeeDao{
             ps.execute();
             return employee;
         }  catch (SQLException e) {
-            System.out.println("Duplicate EID.");
+            Logger.log("Error at creating Employee", LogLevel.DEBUG);
             e.printStackTrace();
             return null;
         }
@@ -50,6 +52,7 @@ public class EmployeeDaoPostgresImpl implements EmployeeDao{
                 throw new ResourceNotFound(eid);
             }
         }catch(SQLException e) {
+            Logger.log("Error at getting an employee by EID", LogLevel.DEBUG);
         e.printStackTrace();
         return null;
     }
@@ -70,7 +73,7 @@ public class EmployeeDaoPostgresImpl implements EmployeeDao{
             return  employee;
 
         } catch (SQLException e) {
-            System.out.println("EID not valid.");
+            Logger.log("Error at getting EID", LogLevel.DEBUG);
             e.printStackTrace();
             return  null;
         }
@@ -88,7 +91,7 @@ public class EmployeeDaoPostgresImpl implements EmployeeDao{
             ps.execute();
             return  true;
         } catch (SQLException e) {
-            System.out.println("EID not valid.");
+            Logger.log("Error at deleting Employee", LogLevel.DEBUG);
             e.printStackTrace();
             return false;
         }
@@ -112,6 +115,7 @@ public class EmployeeDaoPostgresImpl implements EmployeeDao{
             return employees;
 
         } catch (SQLException e) {
+            Logger.log("Error at getting all Employees", LogLevel.DEBUG);
             e.printStackTrace();
             return null;
         }
