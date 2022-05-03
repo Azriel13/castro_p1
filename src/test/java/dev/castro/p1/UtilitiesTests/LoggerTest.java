@@ -9,7 +9,6 @@ public class LoggerTest {
     void info_log_test(){
         Logger.log("Hello", LogLevel.INFO);
         Logger.log("Wassup", LogLevel.DEBUG);
-        Logger.log("Konnichiwa", LogLevel.ERROR);
         Logger.log("Ciao", LogLevel.WARN);
     }
 }
