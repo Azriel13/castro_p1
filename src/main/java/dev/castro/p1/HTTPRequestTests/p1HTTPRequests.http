@@ -1,16 +1,16 @@
 POST http://localhost:5000/employees
 
-{"eName":"Michael Castro","eID": 12}
+{"eName":"Michael","eID": 12}
 ###
 
 POST http://localhost:5000/employees
 
-{"eName":"Meghan Castro","eID": 13}
+{"eName":"Meghan","eID": 13}
 ###
 
 POST http://localhost:5000/employees
 
-{"eName":"Michelle Castro","eID": 12}
+{"eName":"Michelle","eID": 12}
 ###
 
 GET http://localhost:5000/employees
@@ -35,7 +35,7 @@ DELETE http://localhost:5000/employees/15
 
 PUT http://localhost:5000/employees/12
 
-{"eName":"Michelle Castro"}
+{"eName":"Michelle"}
 
 ###
 
@@ -73,11 +73,11 @@ GET  http://localhost:5000/expenses
 
 ###
 
-GET  http://localhost:5000/expenses/121
+GET  http://localhost:5000/employees/12/expenses/1221
 
 ###
 
-GET  http://localhost:5000/expenses/125
+GET  http://localhost:5000/employees/12/expenses/125
 
 ###
 
@@ -90,12 +90,6 @@ GET http://localhost:5000/expenses?status=Approved
 ###
 
 GET http://localhost:5000/expenses?status=Denied
-
-###
-
-PUT http://localhost:5000/employees/12/expenses/121
-
-{"approval":"Pending"}
 
 ###
 
