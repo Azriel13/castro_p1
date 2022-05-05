@@ -26,7 +26,7 @@ The expenses cannot be changed or deleted after they have been approved or denie
 ## Getting Started:
 1. Download JDK with Java 8 or later
 2. Create system environment on host for database and name the environment as shown in green:
-![System Environment name: p1_Postgres](/relative/path/to/castro_p1/Screenshots/Screenshot_2022-05-04_184847.png)
+![System Environment name: p1_Postgres](https://github.com/Azriel13/castro_p1/blob/master/Screenshots/Screenshot_2022-05-04_184847.png)
 3. Open the command prompt and cd into target file
 4. Execute the .jar file
 
