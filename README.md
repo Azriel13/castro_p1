@@ -25,10 +25,14 @@ The expenses cannot be changed or deleted after they have been approved or denie
 
 ## Getting Started:
 1. Download JDK with Java 8 or later
-2. Create system environment on host for database and name the environment as shown in green:
+2. Download Postman to send HTTP requests
+3. Download Maven and follow instructions for setup to be able to build the project for any changes that are made.
+4. Create system environment on host for database and name the environment as shown in green:
 ![System Environment name: p1_Postgres](https://github.com/Azriel13/castro_p1/blob/master/Screenshots/Screenshot_2022-05-04_184847.png)
-3. Open the command prompt and cd into target file
-4. Execute the .jar file
+Or change the environment name in the connectionsutil file to one that is setup on the host.
+5. If any changes were made use maven to build the project into an executeable jar file
+6. Open the command prompt and cd into target file
+7. Execute the .jar file
 
 # Usage
 
