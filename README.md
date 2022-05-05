@@ -7,11 +7,12 @@ The expenses cannot be changed or deleted after they have been approved or denie
 
 ## Technologies used:
 
-1. JAVA
-2. PostgreSQL
-3. Maven
-4. Dbeaver, or other database IDE
-5. Postman, or other app to send HTTP requests
+1. Java
+2. Javalin
+3. PostgreSQL
+4. Postman
+5. REST
+6. JUnit
 
 ### Features
 
